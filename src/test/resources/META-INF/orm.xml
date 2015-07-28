@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	
+	<description>JPA XML Application</description>
+	<package>br.com.pos.academico.entidade</package>
+	
+	<!-- ACADEMICO -->
+	<entity class="br.com.pos.academico.entidade.Pessoa" name="Pessoa" access="FIELD">
+		<table name="pessoa"/>
+		<attributes>
+			<id name="codigo">
+				<column name="codigo" length="11"/>
+			</id>
+			<basic name="nome">
+				<column name="nome" length="180"/>
+			</basic>
+			<basic name="email">
+				<column name="email" length="180"/>
+			</basic>
+			<basic name="graduacao">
+				<column name="graduacao"/>
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.academico.entidade.Usuario" name="Usuario">
+		<table name="usuario"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="login">
+				<column name="login" length="30" unique="true"/>
+			</basic>
+			<basic name="senha" access="FIELD">
+				<column name="senha" length="8"/>
+			</basic>
+			<basic name="grupo">
+				<column name="grupo"/>
+			</basic>
+			<basic name="situacao">
+				<column name="situacao"/>
+			</basic>
+			<one-to-one name="pessoa">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.academico.entidade.Local" name="Local">
+		<table name="local"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="nome"/>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.academico.entidade.Curso" name="Curso">
+		<table name="curso"/>
+		<attributes>
+			<id name="codigo">
+				<column name="codigo"/>
+			</id>
+			<basic name="nome">
+				<column name="nome" length="180"/>
+			</basic>
+			<basic name="sigla">
+				<column name="sigla" length="180"/>
+			</basic>
+			<one-to-one name="coordenador" target-entity="br.com.pos.academico.entidade.Usuario">
+				<join-column name="coordenador"/>
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.academico.entidade.Unidade" name="Unidade">
+		<table name="unidade"/>
+		<attributes>
+			<id name="codigo">
+				<column name="codigo"/>
+			</id>
+			<basic name="nome">
+				<column name="nome" length="180"/>
+			</basic>
+			<one-to-one name="diretor" target-entity="br.com.pos.academico.entidade.Usuario">
+				<join-column name="diretor"/>
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.academico.entidade.Matricula" name="Matricula">
+		<table name="matricula"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="ano"/>
+			<basic name="periodo">
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="semestre">
+				<enumerated>STRING</enumerated>
+			</basic>
+			<many-to-one name="curso">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<many-to-one name="unidade">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<one-to-one name="usuario" optional="false">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+		</attributes>
+	</entity>
+
+	<!-- BANCAS -->
+	<entity class="br.com.pos.banca.entidade.Trabalho" name="Trabalho">
+		<table name="trabalho"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="titulo"/>
+			<basic name="resumo"/>
+			<many-to-one name="curso">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<many-to-one name="orientador">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<one-to-many name="alunos" target-entity="br.com.pos.academico.entidade.Usuario">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-many>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.banca.entidade.Banca" name="Banca">
+		<table name="banca"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="tipo">
+				<column name="tipo" nullable="false"/>
+			</basic>
+			<many-to-one name="trabalho">
+				<join-column name="trabalho_codigo" nullable="false"/>
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<many-to-many name="membros" target-entity="br.com.pos.academico.entidade.Pessoa" fetch="EAGER">
+				<join-table name="banca_membro">
+					<inverse-join-column name="palestrante_codigo" unique="false"/>
+				</join-table>
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-many>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.banca.entidade.AgendamentoHorario" name="AgendamentoHorario">
+		<table name="agendamento_horario"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="situacao">
+				<column name="situacao" nullable="false"/>
+			</basic>
+			<basic name="inicio">
+				<column name="inicio" nullable="false" column-definition="TIME"/>
+			</basic>
+			<basic name="termino">
+				<column name="termino" nullable="false" column-definition="TIME"/>
+			</basic>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.banca.entidade.AgendamentoDia" name="AgendamentoDia">
+		<table name="agendamento_dia"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<basic name="dia"/>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.banca.entidade.AgendamentoSala" name="AgendamentoSala">
+		<table name="agendamento_sala"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<one-to-one name="sala">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+			<many-to-many name="cursos" target-entity="br.com.pos.academico.entidade.Curso" fetch="EAGER">
+				<join-table name="sala_curso">
+					<inverse-join-column name="palestrante_codigo" unique="false"/>
+				</join-table>
+			</many-to-many>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.banca.entidade.Agendamento" name="Agendamento">
+		<table name="agendamento"/>
+		<attributes>
+			<id name="codigo">
+				<generated-value/>
+			</id>
+			<many-to-one name="sala">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<many-to-one name="dia">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<many-to-one name="horario">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</many-to-one>
+			<one-to-one name="banca">
+				<cascade>
+					<cascade-all/>
+				</cascade>
+			</one-to-one>
+		</attributes>
+	</entity>
+	
+	<entity class="br.com.pos.banca.entidade.PeriodoAcesso" name="PeriodoAcesso">
+		<table name="periodo_acesso"/>
+		<attributes>
+			<id name="codigo"/>
+			<basic name="inicio"/>
+			<basic name="termino"/>
+		</attributes>
+	</entity>
+</entity-mappings>

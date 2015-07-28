@@ -1,0 +1,50 @@
+<html lang="pt" ng-app="banca">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width = device-width, initial-scale = 1, maximum-scale = 1">
+	
+	<style type="text/css">
+		@import url("public/css/banca.css");
+		@import url("public/css/bootstrap/bootstrap.css");
+		@import url("public/css/bootstrap/bootstrap-theme.css");
+	</style>
+	
+	<title>Bancas - Fatec Ourinhos</title>
+</head>
+
+<body>
+	<div ng-include="'public/view/menu.html'"></div>
+	<div class="container">
+		<div show ng-view></div>
+	</div>
+	<div loading class="page-loader" ng-animate-children>
+		<div class="page-loader-container">
+			<div id="loader">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src="public/js/jquery/jquery-1.11.0.min.js"></script>
+<script src="public/js/bootstrap/bootstrap.js"></script>
+
+<script src="public/js/angular.min.js"></script>
+<script src="public/js/angular-route.min.js"></script>
+<script src="public/js/angular-locale-br.js"></script>
+<script src="public/js/ui-bootstrap-0.12.1.min.js"></script>
+
+<script src="public/js/banca.js"></script>
+<script src="public/js/controllers/Menu.js"></script>
+<script src="public/js/controllers/agendamento/Dia.js"></script>
+<script src="public/js/controllers/trabalho/Trabalho.js"></script>
+<script src="public/js/controllers/agendamento/Horario.js"></script>
+</html>
