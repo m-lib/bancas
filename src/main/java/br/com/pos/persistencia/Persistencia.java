@@ -16,7 +16,6 @@ public abstract class Persistencia<T> {
 		this.tipo = tipo;
 	}
 	
-	@Deprecated
 	public Collection<T> buscar(T entidade, Paginacao paginacao) throws Exception {
 		QuiuiBuilder<T> query = new QuiuiBuilder<T>(manager, tipo);
 		query.create(entidade);
@@ -24,23 +23,6 @@ public abstract class Persistencia<T> {
 		query.setFirst(paginacao.getPrimeiroRegistro());
 		query.setMax(paginacao.getMaximo());
 		return query.select();
-	}
-	
-	public Pagination<T> buscar(Pagination<T> pagination) throws Exception {
-		QuiuiBuilder<T> query = new QuiuiBuilder<T>(manager, tipo);
-		query.create(pagination.getElemento());
-		
-		query.setFirst(pagination.getPrimeiroRegistro());
-		query.setMax(pagination.getMaximo());
-		
-		Pagination<T> response;
-		response = new Pagination<T>();
-		response.setElementos(query.select());
-		response.setQuantidade(query.count());
-		response.setPagina(pagination.getPagina());
-		response.setElemento(pagination.getElemento());
-		
-		return response;
 	}
 	
 	public Long quantitdade(T entidade) throws Exception {

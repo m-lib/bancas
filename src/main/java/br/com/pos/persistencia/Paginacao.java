@@ -2,7 +2,6 @@ package br.com.pos.persistencia;
 
 import lombok.Getter;
 
-@Deprecated
 public class Paginacao {
 
 	private int numeroPaginas = 1;

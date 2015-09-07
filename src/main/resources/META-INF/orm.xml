@@ -144,20 +144,17 @@
 			<basic name="resumo"/>
 			<many-to-one name="curso">
 				<cascade>
-					<cascade-merge/>
+					<cascade-all/>
 				</cascade>
 			</many-to-one>
 			<many-to-one name="orientador">
-				<join-table name="trabalho_orientador">
-					<inverse-join-column name="orientador_codigo" unique="false"/>
-				</join-table>
 				<cascade>
-					<cascade-merge/>
+					<cascade-all/>
 				</cascade>
 			</many-to-one>
 			<one-to-many name="alunos" target-entity="br.com.pos.academico.entidade.Usuario">
 				<cascade>
-					<cascade-merge/>
+					<cascade-all/>
 				</cascade>
 			</one-to-many>
 		</attributes>
@@ -178,7 +175,7 @@
 					<cascade-all/>
 				</cascade>
 			</many-to-one>
-			<many-to-many name="membros" target-entity="br.com.pos.academico.entidade.Pessoa" fetch="EAGER">
+			<many-to-many name="membros" target-entity="br.com.pos.academico.entidade.Pessoa">
 				<join-table name="banca_membro">
 					<inverse-join-column name="palestrante_codigo" unique="false"/>
 				</join-table>
@@ -228,7 +225,7 @@
 					<cascade-all/>
 				</cascade>
 			</one-to-one>
-			<many-to-many name="cursos" target-entity="br.com.pos.academico.entidade.Curso" fetch="EAGER">
+			<many-to-many name="cursos" target-entity="br.com.pos.academico.entidade.Curso">
 				<join-table name="sala_curso">
 					<inverse-join-column name="palestrante_codigo" unique="false"/>
 				</join-table>

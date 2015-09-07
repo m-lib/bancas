@@ -1,7 +1,7 @@
 package br.com.pos.web.producer;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
@@ -15,7 +15,7 @@ public class JPAProducer {
 	}
 	
 	@Produces
-	@RequestScoped
+	@SessionScoped
 	public EntityManager getEntityManager(EntityManagerFactory factory) {
 		return factory.createEntityManager();
 	}

@@ -24,7 +24,7 @@ public class Trabalho {
 	@Getter @Setter
 	private String resumo;
 	
-	@Getter @Setter
+	@Getter
 	private Usuario orientador;
 	
 	@Getter @Setter
@@ -42,4 +42,8 @@ public class Trabalho {
 		alunos.add(autor);
 	}
 	
+	public void setOrientador(Usuario orientador) {
+		this.orientador = orientador;
+	}
+
 }
